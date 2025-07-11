@@ -29,6 +29,8 @@ export function RoiEstimator() {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
+      lotSizeAcres: '' as any,
+      numberOfSpaces: '' as any,
       currentPaintCondition: "fair",
       repaintFrequencyYears: 2,
     },
