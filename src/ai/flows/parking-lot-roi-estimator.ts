@@ -32,6 +32,12 @@ export type ParkingLotRoiEstimatorInput = z.infer<
   typeof ParkingLotRoiEstimatorInputSchema
 >;
 
+const RoiChartDataSchema = z.object({
+  year: z.number().describe('The year for the cost data.'),
+  standardPaintCost: z.number().describe('Cumulative cost for standard paint.'),
+  tblPaintCost: z.number().describe('Cumulative cost for TBL paint.'),
+});
+
 const ParkingLotRoiEstimatorOutputSchema = z.object({
   estimatedSavings: z
     .number()
@@ -43,6 +49,7 @@ const ParkingLotRoiEstimatorOutputSchema = z.object({
     .describe(
       'A detailed explanation of how the ROI was calculated, including assumptions.'
     ),
+  chartData: z.array(RoiChartDataSchema).describe('The data for the cost comparison chart over 6 years.')
 });
 export type ParkingLotRoiEstimatorOutput = z.infer<
   typeof ParkingLotRoiEstimatorOutputSchema
@@ -66,13 +73,17 @@ const prompt = ai.definePrompt({
   - Number of Spaces: {{numberOfSpaces}}
   - Repaint Frequency (standard paint): {{repaintFrequencyYears}} years
 
-  Calculate the estimated cost savings over a 3-year period by using StellarGenix's TBL paint, which lasts 2-3 times longer than standard paint. Also, provide a detailed explanation of your calculations, including any assumptions you made (e.g., cost per repaint, average claim costs related to accidents, ADA fines, lost rent during shutdown for repaint).
+  Your task is to:
+  1. Calculate the estimated cost savings over a 3-year period by using StellarGenix's TBL paint, which lasts at least 3 years.
+  2. Provide a detailed explanation of your calculations. Include assumptions made (e.g., cost per repaint for standard paint is $5000 per acre, TBL paint is $12000 per acre but lasts 3 years, ancillary costs like lost rent or fines).
+  3. Generate data for a chart comparing the cumulative cost of 'standardPaintCost' vs. 'tblPaintCost' for 6 years. Assume the first repaint for both happens in Year 1. Standard paint is repainted every {{repaintFrequencyYears}} years. TBL paint is repainted every 3 years.
 
-  The output should be a JSON object with two fields:
+  The output must be a JSON object with three fields:
   - estimatedSavings: The estimated cost savings over three years.
   - roiExplanation: A detailed explanation of the ROI calculation.
+  - chartData: An array of objects for 6 years, each containing 'year', 'standardPaintCost', and 'tblPaintCost'.
 
-  Ensure the estimatedSavings value is a number.
+  Ensure the estimatedSavings value is a number and chartData is an array.
   `,
 });
 
