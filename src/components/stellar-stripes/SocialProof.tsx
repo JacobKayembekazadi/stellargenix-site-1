@@ -2,7 +2,7 @@ import Image from "next/image";
 import { Card, CardContent } from "@/components/ui/card";
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
 import { Badge } from "@/components/ui/badge";
-import { PlayCircle } from "lucide-react";
+import { Play } from "lucide-react";
 
 const caseStudies = [
   {
@@ -107,7 +107,7 @@ export function SocialProof() {
             <div className="relative aspect-video w-full cursor-pointer group">
                 <Image src="https://placehold.co/800x450.png" alt="Video testimonial thumbnail" layout="fill" className="rounded-lg object-cover" data-ai-hint="manager talking" />
                 <div className="absolute inset-0 bg-black/40 rounded-lg flex items-center justify-center">
-                    <PlayCircle className="h-20 w-20 text-white/80 group-hover:text-white transition-colors" />
+                    <Play className="h-20 w-20 text-white/80 group-hover:text-white transition-colors" />
                 </div>
             </div>
             <div className="space-y-4">
