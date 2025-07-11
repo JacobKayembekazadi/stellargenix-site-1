@@ -33,27 +33,40 @@ export function Hero() {
   }
 
   return (
-    <section className="w-full py-12 md:py-24 lg:py-32 bg-primary/5">
-      <div className="container mx-auto px-4 md:px-6">
+    <section className="relative w-full py-12 md:py-24 lg:py-32 overflow-hidden">
+      {/* Background Video */}
+      <video 
+        autoPlay 
+        loop 
+        muted 
+        playsInline
+        className="absolute inset-0 w-full h-full object-cover z-0"
+      >
+        <source src="/videos/video1.mp4" type="video/mp4" />
+      </video>
+      {/* Overlay for better text readability */}
+      <div className="absolute inset-0 bg-black/40 z-10"></div>
+      
+      <div className="relative z-20 container mx-auto px-4 md:px-6">
         <div className="grid gap-8 lg:grid-cols-2 lg:gap-16">
           <div className="flex flex-col justify-center space-y-6">
-            <h1 className="text-4xl font-bold tracking-tighter sm:text-5xl xl:text-6xl/none font-headline text-primary">
+            <h1 className="text-4xl font-bold tracking-tighter sm:text-5xl xl:text-6xl/none font-headline text-white drop-shadow-lg">
               Houston & Dallas Lots Re-Striped in 72 Hours—Guaranteed 20-30% Lower 3-Year Cost.
             </h1>
-            <p className="max-w-[600px] text-muted-foreground md:text-xl">
+            <p className="max-w-[600px] text-white/90 md:text-xl drop-shadow-md">
               Tired of fading lines & surprise re-paint bills? Our TBL® traffic paint lasts 2–3× longer, slashing spend while boosting curb appeal and ADA compliance.
             </p>
             <div className="flex flex-col sm:flex-row gap-4">
-              <div className="flex items-center gap-2 text-sm">
-                <ShieldCheck className="h-5 w-5 text-green-600" />
+              <div className="flex items-center gap-2 text-sm text-white/90">
+                <ShieldCheck className="h-5 w-5 text-green-400" />
                 <span>BBB A+ Rated</span>
               </div>
-              <div className="flex items-center gap-2 text-sm">
-                <ShieldCheck className="h-5 w-5 text-green-600" />
+              <div className="flex items-center gap-2 text-sm text-white/90">
+                <ShieldCheck className="h-5 w-5 text-green-400" />
                 <span>OSHA Compliant</span>
               </div>
-              <div className="flex items-center gap-2 text-sm">
-                <ShieldCheck className="h-5 w-5 text-green-600" />
+              <div className="flex items-center gap-2 text-sm text-white/90">
+                <ShieldCheck className="h-5 w-5 text-green-400" />
                 <span>ADA Certified Experts</span>
               </div>
             </div>

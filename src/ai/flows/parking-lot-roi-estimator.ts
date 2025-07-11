@@ -58,7 +58,82 @@ export type ParkingLotRoiEstimatorOutput = z.infer<
 export async function parkingLotRoiEstimator(
   input: ParkingLotRoiEstimatorInput
 ): Promise<ParkingLotRoiEstimatorOutput> {
-  return parkingLotRoiEstimatorFlow(input);
+  try {
+    return await parkingLotRoiEstimatorFlow(input);
+  } catch (error) {
+    console.warn('AI service unavailable, using fallback calculation:', error);
+    return fallbackRoiCalculation(input);
+  }
+}
+
+// Fallback ROI calculation when AI service is unavailable
+function fallbackRoiCalculation(input: ParkingLotRoiEstimatorInput): ParkingLotRoiEstimatorOutput {
+  const { lotSizeAcres, currentPaintCondition, numberOfSpaces, repaintFrequencyYears } = input;
+  
+  // Cost assumptions
+  const standardPaintCostPerAcre = 5000;
+  const tblPaintCostPerAcre = 12000;
+  const ancillaryCostPerRepaint = lotSizeAcres * 1000; // Lost revenue, fines, etc.
+  
+  // Calculate costs over 3 years
+  const standardPaintBaseCost = lotSizeAcres * standardPaintCostPerAcre;
+  const tblPaintBaseCost = lotSizeAcres * tblPaintCostPerAcre;
+  
+  // Calculate number of repaints needed in 3 years
+  const standardRepaints = Math.ceil(3 / repaintFrequencyYears);
+  const tblRepaints = 1; // TBL paint lasts 3+ years
+  
+  // Total costs including ancillary costs
+  const standardTotalCost = (standardPaintBaseCost + ancillaryCostPerRepaint) * standardRepaints;
+  const tblTotalCost = (tblPaintBaseCost + ancillaryCostPerRepaint) * tblRepaints;
+  
+  const estimatedSavings = standardTotalCost - tblTotalCost;
+  
+  // Generate chart data for 6 years
+  const chartData = [];
+  let standardCumulative = 0;
+  let tblCumulative = 0;
+  
+  for (let year = 1; year <= 6; year++) {
+    // Standard paint repainting schedule
+    if (year === 1 || (year - 1) % repaintFrequencyYears === 0) {
+      standardCumulative += standardPaintBaseCost + ancillaryCostPerRepaint;
+    }
+    
+    // TBL paint repainting schedule (every 3 years)
+    if (year === 1 || (year - 1) % 3 === 0) {
+      tblCumulative += tblPaintBaseCost + ancillaryCostPerRepaint;
+    }
+    
+    chartData.push({
+      year,
+      standardPaintCost: standardCumulative,
+      tblPaintCost: tblCumulative,
+    });
+  }
+  
+  const conditionMultiplier = currentPaintCondition === 'poor' ? 1.2 : 
+                              currentPaintCondition === 'fair' ? 1.1 : 1.0;
+  
+  const roiExplanation = `Based on your ${lotSizeAcres}-acre parking lot with ${numberOfSpaces} spaces in ${currentPaintCondition} condition:
+
+• Standard paint costs: $${standardPaintCostPerAcre.toLocaleString()}/acre every ${repaintFrequencyYears} years
+• TBL® paint costs: $${tblPaintCostPerAcre.toLocaleString()}/acre every 3+ years
+• Ancillary costs per repaint: $${ancillaryCostPerRepaint.toLocaleString()} (lost revenue, ADA compliance, etc.)
+
+Over 3 years, you would need ${standardRepaints} standard repaints vs. ${tblRepaints} TBL® repaint.
+
+Total standard paint cost: $${standardTotalCost.toLocaleString()}
+Total TBL® paint cost: $${tblTotalCost.toLocaleString()}
+Your savings: $${estimatedSavings.toLocaleString()}
+
+Additional benefits: Reduced business disruption, improved curb appeal, longer-lasting ADA compliance.`;
+
+  return {
+    estimatedSavings: Math.max(0, Math.round(estimatedSavings * conditionMultiplier)),
+    roiExplanation,
+    chartData,
+  };
 }
 
 const prompt = ai.definePrompt({

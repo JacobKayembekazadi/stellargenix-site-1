@@ -10,27 +10,27 @@ const caseStudies = [
   {
     logo: "https://placehold.co/150x50.png",
     logoAlt: "Stewart Airport Logo",
-    beforeImage: "https://placehold.co/600x400.png",
+    beforeImage: "/images/image6.jpg",
     beforeImageHint: "faded parking lines",
-    afterImage: "https://placehold.co/600x400.png",
+    afterImage: "/images/image7.jpg",
     afterImageHint: "fresh parking lines",
     quote: "StellarGenix cut our repaint spend by 28% in 3 years. The lot has never looked better or been safer."
   },
   {
     logo: "https://placehold.co/150x50.png",
     logoAlt: "Houston Galleria Logo",
-    beforeImage: "https://placehold.co/600x400.png",
+    beforeImage: "/images/image8.jpg",
     beforeImageHint: "cracked asphalt night",
-    afterImage: "https://placehold.co/600x400.png",
+    afterImage: "/images/image9.jpg",
     afterImageHint: "sealed asphalt night",
     quote: "The 72-hour turnaround was incredible. We had zero disruption to our shoppers and the ADA updates were seamless."
   },
   {
     logo: "https://placehold.co/150x50.png",
     logoAlt: "Dallas Medical Center Logo",
-    beforeImage: "https://placehold.co/600x400.png",
+    beforeImage: "/images/image10.jpg",
     beforeImageHint: "worn parking lot day",
-    afterImage: "https://placehold.co/600x400.png",
+    afterImage: "/images/image11.jpg",
     afterImageHint: "new parking lot day",
     quote: "Their team's professionalism and communication were top-notch. They handled a complex, multi-level garage with ease."
   }
@@ -106,11 +106,19 @@ export function SocialProof() {
         </Carousel>
 
         <div className="mt-16 grid gap-8 md:grid-cols-2 items-center">
-            <div className="relative aspect-video w-full cursor-pointer group">
-                <Image src="https://placehold.co/800x450.png" alt="Video testimonial thumbnail" layout="fill" className="rounded-lg object-cover" data-ai-hint="manager talking" />
-                <div className="absolute inset-0 bg-black/40 rounded-lg flex items-center justify-center">
-                    <Play className="h-20 w-20 text-white/80 group-hover:text-white transition-colors" />
-                </div>
+            <div className="relative aspect-video w-full">
+                <video 
+                    src="/videos/video2.mp4" 
+                    controls 
+                    autoPlay
+                    muted
+                    loop
+                    playsInline
+                    className="w-full h-full rounded-lg object-cover"
+                    poster="/images/image12.jpg"
+                >
+                    Your browser does not support the video tag.
+                </video>
             </div>
             <div className="space-y-4">
                 <h3 className="text-2xl font-bold font-headline text-primary">"Communication was easy, pricing superb."</h3>
