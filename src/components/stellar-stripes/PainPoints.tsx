@@ -1,5 +1,7 @@
+'use client';
+
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { AlertTriangle, TrendingDown, Wrench } from "lucide-react"
+import { TriangleAlert, TrendingDown, Wrench } from "lucide-react"
 
 const painPoints = [
   {
@@ -9,7 +11,7 @@ const painPoints = [
     cost: "Avg. claim $35k/incident"
   },
   {
-    icon: <AlertTriangle className="h-8 w-8 text-orange-500" />,
+    icon: <TriangleAlert className="h-8 w-8 text-orange-500" />,
     title: "Real-World Cost",
     description: "Failing an ADA audit can be costly.",
     cost: "Up to $150k/lot in fines"
