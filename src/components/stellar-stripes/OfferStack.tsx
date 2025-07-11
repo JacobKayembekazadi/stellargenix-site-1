@@ -1,7 +1,7 @@
 'use client';
 
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
-import { CheckCircle2, ShieldCheck } from "lucide-react";
+import { CheckCircle, ShieldCheck } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 const offerItems = [
@@ -31,7 +31,7 @@ export function OfferStack() {
             <ul className="space-y-3">
               {offerItems.map((item) => (
                 <li key={item.text} className="flex items-center gap-3">
-                  <CheckCircle2 className="h-6 w-6 text-accent" />
+                  <CheckCircle className="h-6 w-6 text-accent" />
                   <span className="text-lg">{item.text}</span>
                 </li>
               ))}
