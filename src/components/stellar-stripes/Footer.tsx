@@ -1,9 +1,19 @@
+
+'use client';
+
+import { useState, useEffect } from "react";
 import { Logo } from "./Logo";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Phone, MessageCircle } from "lucide-react";
 
 export function Footer() {
+  const [year, setYear] = useState(new Date().getFullYear());
+
+  useEffect(() => {
+    setYear(new Date().getFullYear());
+  }, []);
+
   return (
     <footer className="w-full bg-primary/5 border-t">
       <div className="container mx-auto px-4 md:px-6 py-12">
@@ -41,7 +51,7 @@ export function Footer() {
           </div>
         </div>
         <div className="border-t mt-8 pt-6 text-center text-sm text-muted-foreground">
-          © {new Date().getFullYear()} StellarGenix Pavement Solutions. All Rights Reserved.
+          © {year} StellarGenix Pavement Solutions. All Rights Reserved.
         </div>
       </div>
     </footer>
